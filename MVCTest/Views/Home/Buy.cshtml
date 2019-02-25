@@ -1,0 +1,33 @@
+﻿@{ 
+    Layout = "_Layout";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order</title>
+</head>
+<body>
+        <form method="post" class="form-horizontal" role="form">
+            <input type="hidden" value="@ViewBag.ProductId" name="ProductId" />
+            <table class="table-condensed">
+                <tr>
+                    <td>Quantity:</td>
+                    <td><input type="text" name="Quantity" /> </td>
+                </tr>
+
+                <tr>
+                    <td>Your promo-id:</td>
+                    <td><input type="text" name="Promo" /></td>
+                </tr>
+
+                <tr>
+                <td><input type="submit" value="Submit" /> </td>
+                </tr>
+
+            </table>
+        </form>
+</body>
+</html>
+
