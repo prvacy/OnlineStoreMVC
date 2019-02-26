@@ -36,7 +36,12 @@ namespace MVCTest
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             string connection = Configuration.GetConnectionString("DefaultConnection");               //DB connection
-            services.AddDbContext<Models.ProductContext>(options => options.UseSqlServer(connection));//
+            services.AddDbContext<Models.User.UserContext>(options => options.UseSqlServer(connection));   //
+            services.AddDbContext<Models.Product.ProductContext>(options => options.UseSqlServer(connection));
+
+
+            services.AddDistributedMemoryCache();//Sessions
+            services.AddSession();               //
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,11 +61,19 @@ namespace MVCTest
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseSession();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                    );
+
+                routes.MapRoute(
+                    name: "register",
+                    template: "{controller=Auth}/{action=Register}"
+                    );
             });
         }
     }

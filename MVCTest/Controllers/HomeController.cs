@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using MVCTest.Models;
+using MVCTest.Models.Product;
 
 namespace MVCTest.Controllers
 {

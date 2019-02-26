@@ -1,14 +1,11 @@
-﻿using JetBrains.Annotations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace MVCTest.Models
+namespace MVCTest.Models.Product
 {
     public class ProductContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
-
-
 
 
         public ProductContext(DbContextOptions<ProductContext> options) : base(options)
