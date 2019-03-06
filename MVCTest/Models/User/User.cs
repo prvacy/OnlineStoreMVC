@@ -15,5 +15,9 @@ namespace MVCTest.Models.User
 
         public byte[] SessionId { get; set; }
 
+        public byte[] CookieAuthToken { get; set; }
+
+        public bool IsFirstAuth { get; set; }
+
     }
 }

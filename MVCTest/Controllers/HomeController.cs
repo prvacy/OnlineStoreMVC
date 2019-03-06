@@ -6,21 +6,26 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using MVCTest.Models.Product;
+using MVCTest.Models.User;
+
 
 namespace MVCTest.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        ProductContext db;
-        public HomeController(ProductContext context)
+
+        ProductContext db2;
+        public HomeController(UserContext context, ProductContext productContext) : base(context)
         {
-            db = context;
+            db2 = productContext;
         }
+
+
 
 
         public IActionResult Index()
         {
-            return View(db.Products.ToList());
+            return View(db2.Products.ToList());
         }
 
 
@@ -34,9 +39,9 @@ namespace MVCTest.Controllers
         [HttpPost]
         public IActionResult Buy(Order order)
         {
-            db.Orders.Add(order); 
-            db.SaveChanges();//Save changes
-            var productName = db.Products.Single(item => item.Id == order.ProductId).Name;//Select product name from db
+            db2.Orders.Add(order); 
+            db2.SaveChanges();//Save changes
+            var productName = db2.Products.Single(item => item.Id == order.ProductId).Name;//Select product name from db
 
             ViewBag.ProductQuantity = order.Quantity;
             ViewBag.ProductName = productName;
