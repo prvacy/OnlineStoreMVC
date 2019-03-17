@@ -1,0 +1,36 @@
+﻿
+@model IEnumerable<MVCTest.Models.Product.OrderItem>
+
+
+@{
+        Layout = "_Layout";
+        //ViewData["Title"] = "Cart";
+    }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+</head>
+<body>
+    <form method="post" class="form-horizontal" role="form">
+        <table class="table-condensed">
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Product.Price</td>
+                    <td><input type="text" value="@item.Quantity" name="Quantity" /></td>
+                </tr>
+            }
+
+            <td><input type="hidden" value="@Model.First().OrderId" name="OrderId" /></td>
+
+        </table>
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
+

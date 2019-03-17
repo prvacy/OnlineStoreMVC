@@ -36,8 +36,8 @@ namespace MVCTest
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             string connection = Configuration.GetConnectionString("DefaultConnection");               //DB connection
-            services.AddDbContext<Models.User.UserContext>(options => options.UseSqlServer(connection));   //
-            services.AddDbContext<Models.Product.ProductContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<Models.SiteDbContext>(options => options.UseSqlServer(connection));   //
+
 
 
             services.AddDistributedMemoryCache();//Sessions

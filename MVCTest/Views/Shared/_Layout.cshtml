@@ -17,9 +17,6 @@
                 </ul>
             </div>
 
-
-            
-
             <div>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -36,21 +33,17 @@
                     }
                 </ul>
             </div>
-
-
-            @*<div>
+            
+            <div>
                 <ul class="nav navbar-nav navbar-right">
-                    @{ if (ViewBag.Login == null)
+                    @{
+                        if (ViewBag.cartNotEmpty)
                         {
-                            <li><a href="~/Auth/Login" class="navbar-brand">Login</a></li>
-                        }
-                        else
-                        {
-                            <li><p class="navbar-brand" id="Login" >@ViewBag.Login </p></li>
+                            <li><a href="~/Home/Cart" class="navbar-brand">Cart</a></li>
                         }
                     }
                 </ul>
-            </div>*@
+            </div>
 
         </div>
 

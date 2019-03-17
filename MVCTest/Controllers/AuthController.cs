@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVCTest.Encryptor;
-
+using MVCTest.Models;
 using MVCTest.Models.User;
 
 namespace MVCTest.Controllers
 {
     public class AuthController : BaseController
     {
-        UserContext db1;
-        public AuthController(UserContext context) : base(context)
+        SiteDbContext db1;
+        public AuthController(SiteDbContext context) : base(context)
         {
             db1 = context;
         }

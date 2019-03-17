@@ -7,20 +7,26 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MVCTest.Encryptor;
+using MVCTest.Models;
 using MVCTest.Models.User;//DB
 
 namespace MVCTest.Controllers
 {
     public class BaseController : Controller
     {
-        UserContext db;
-        public BaseController(UserContext context)
+        SiteDbContext db;
+        public BaseController(SiteDbContext context)
         {
             db = context;
         }
 
+
+
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+
+            #region CookieAndSession
             var sessionId = HttpContext.Session.GetString("sessionId");
             var userId = HttpContext.Session.GetString("userId");
             var cookieAuth = HttpContext.Request.Cookies["cookieAuth"];
@@ -42,13 +48,13 @@ namespace MVCTest.Controllers
             {
                 message = "cookie not set";
             }
-            
+
 
             if (selUser != null)
             {
                 var sessionIdDB = Encoding.UTF8.GetString(selUser.SessionId);
 
-                if (!String.IsNullOrEmpty(sessionId)) 
+                if (!String.IsNullOrEmpty(sessionId))
                 {
                     if (sessionId == sessionIdDB)
                     {
@@ -70,11 +76,25 @@ namespace MVCTest.Controllers
 
 
             }
+            #endregion
 
 
 
+            #region Cart
+            var cart = HttpContext.Request.Cookies["order-id"];//TODO: if order is done clear cookie cart
 
-            base.OnActionExecuting(context);    
+            if (!(String.IsNullOrEmpty(cart))) 
+            {
+                ViewBag.cartNotEmpty = true;
+            }
+            else
+            {
+                ViewBag.cartNotEmpty = false;
+            }
+
+            #endregion
+
+            base.OnActionExecuting(context);
         }
 
     }
