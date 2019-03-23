@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link href="~/css/Layout.css" rel="stylesheet" />
     <!--<link rel="stylesheet" href="~/css/Style.css" />-->
 </head>
 <body>
@@ -23,26 +24,23 @@
                     @{
                         if (ViewBag.Login == null)
                         {
-                                <li><a href="~/Auth/Register" class="navbar-brand">Register</a></li>
-                                <li><a href="~/Auth/Login" class="navbar-brand">Login</a></li>
+                            <li><a href="~/Auth/Register" class="navbar-brand">Register</a></li>
+                            <li><a href="~/Auth/Login" class="navbar-brand">Login</a></li>
                         }
                         else
                         {
-                                <li><p class="navbar-brand" id="Login">@ViewBag.Login </p></li>
+                            <li><p class="navbar-brand" id="Login">@ViewBag.Login </p></li>
                         }
-                    }
-                </ul>
-            </div>
-            
-            <div>
-                <ul class="nav navbar-nav navbar-right">
-                    @{
+
                         if (ViewBag.cartNotEmpty)
                         {
                             <li><a href="~/Home/Cart" class="navbar-brand">Cart</a></li>
-                        }
+                            
+                        }   
+
                     }
                 </ul>
+                <i
             </div>
 
         </div>
@@ -52,8 +50,8 @@
     <!--основной контент-->
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
+
+        <footer style="position:fixed; left:0; bottom:0">
             <p>LeadWay LLC 2019</p>
         </footer>
     </div>

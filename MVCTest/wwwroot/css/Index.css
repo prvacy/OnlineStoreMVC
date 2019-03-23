@@ -1,0 +1,43 @@
+﻿body {
+}
+
+p {
+    color: antiquewhite;
+    font-size: 14px;
+}
+
+.product {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    color: antiquewhite;
+    font-size: 14px;
+    margin-right: 5%;
+    float: left
+}
+
+.product-image{
+    margin-bottom:5px;
+}
+
+.product-description {
+    display: flex;
+    flex-direction: column;
+}
+
+    .product-description p {
+        margin-bottom: 2px;
+    }
+
+.price {
+    font-size: 16px;
+}
+
+.product-name{
+    color:inherit;
+}
+
+.default-button {
+    color: black;
+}

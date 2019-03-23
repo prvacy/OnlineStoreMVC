@@ -1,33 +1,30 @@
-﻿@{ 
+﻿@{
     Layout = "_Layout";
 }
 
+@model MVCTest.Models.Product.Product
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Order</title>
+    <link href="~/css/Index.css" rel="stylesheet" />
 </head>
 <body>
-        <form method="post" class="form-horizontal" role="form">
-            <input type="hidden" value="@ViewBag.ProductId" name="ProductId" />
-            <table class="table-condensed">
-                <tr>
-                    <td>Quantity:</td>
-                    <td><input type="text" name="Quantity" /> </td>
-                </tr>
+    <form method="post" class="form-horizontal" role="form">
+        <input type="hidden" value="@Model.Id" name="ProductId" />
+        <div class="products-container">
+            <p>@Model.Name <br /></p>
+            <img src="@Model.ImagePath"
+                 width="250"
+                 height="200" />
+            <p><br />Quantity: <input type="text" name="Quantity" /> </p>
 
-                <tr>
-                    <td>Your promo-id:</td>
-                    <td><input type="text" name="Promo" /></td>
-                </tr>
-
-                <tr>
-                <td><input type="submit" value="Submit" /> </td>
-                </tr>
-
-            </table>
-        </form>
+            @*<p><input class="default-button" type="submit" value="Submit" /> </p>*@
+            <p class="default-button"><button type="submit" class="default-button">Submit</button></p>
+            
+        </div>
+    </form>
 </body>
 </html>
 

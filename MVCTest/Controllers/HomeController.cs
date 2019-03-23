@@ -22,8 +22,6 @@ namespace MVCTest.Controllers
         }
 
 
-
-
         public IActionResult Index()
         {
             //var cart = db2.Orders.Include(i => i.OrderItems).Single(i => i.OrderId == 4).OrderItems;
@@ -37,13 +35,13 @@ namespace MVCTest.Controllers
         public IActionResult Buy(int id)
         {
             ViewBag.ProductId = id;
-            return View();
+            var product = db.Products.SingleOrDefault(i => i.Id == id);
+            return View(product);
         }
 
         [HttpPost]
-        public IActionResult Buy(int ProductId, int Quantity, string Promo)
+        public IActionResult Buy(int ProductId, int Quantity)
         {
-            //TODO: if order is submitted delete cookie!
 
             var orderitem = new OrderItem();
             var product = db.Products.SingleOrDefault(i => i.Id == ProductId);//may be null
@@ -83,13 +81,6 @@ namespace MVCTest.Controllers
             }
 
 
-
-            //db2.Orders.Add(order); 
-            //db2.SaveChanges();//Save changes
-            //var productName = db2.Products.Single(item => item.Id == order.ProductId).Name;//Select product name from db
-
-            //ViewBag.ProductQuantity = order.Quantity;
-            //ViewBag.ProductName = productName;
             return View("~/Views/Home/Success.cshtml");
         }
 
@@ -106,7 +97,7 @@ namespace MVCTest.Controllers
         }
 
         [HttpPost]
-        public string Cart(int[] Quantity, int OrderId)
+        public IActionResult Cart(int[] Quantity, string[] ItemsToDelete, int OrderId)
         {
             var order = db.Orders.SingleOrDefault(i => i.Id == OrderId);
             var orderItems = db.OrderItems.Where(i => i.OrderId == OrderId);
@@ -120,14 +111,30 @@ namespace MVCTest.Controllers
                 it++;
             }
 
-            order.IsSubmitted = true;
-            HttpContext.Response.Cookies.Append("order-id", "");
+            if (ItemsToDelete.FirstOrDefault() != null)
+            {
+                foreach (var item in ItemsToDelete)
+                {
+                    db.OrderItems.Remove(orderItems.SingleOrDefault(i => i.Id == Convert.ToInt32(item)));//TODO: if no elements display that cart is empty
+                    db.SaveChanges();
+                }
+                var cart = db.OrderItems.Include(i => i.Product)
+                    .Where(i => i.OrderId == OrderId).ToArray();
+                return View(cart.ToList());
+            }
+            else
+            {
+                order.IsSubmitted = true;
+                HttpContext.Response.Cookies.Append("order-id", "");//cookie will be deleted if order is submitted
 
-            db.OrderItems.UpdateRange(orderItems);
-            db.Orders.Update(order);
-            db.SaveChanges();
+                db.OrderItems.UpdateRange(orderItems);
+                db.Orders.Update(order);
+                db.SaveChanges();
 
-            return "success";//TODO: redirect to success page
+                return View();//TODO: redirect to success page
+            }
+
+
         }
     }
 }

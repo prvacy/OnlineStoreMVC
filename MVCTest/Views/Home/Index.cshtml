@@ -1,7 +1,6 @@
 ﻿
-@*@model IEnumerable<MVCTest.Models.Product.Product>*@
+@model IEnumerable<MVCTest.Models.Product.Product>
 
-@*@model IEnumerable<MVCTest.Models.Product.OrderItem>*@
 
 @{
     ViewData["Title"] = "Buy a lot of goods!";
@@ -13,23 +12,37 @@
 <html>
 <head>
     <title>Buy a lot of goods!</title>
+    <link href="~/css/Index.css" rel="stylesheet" />
 </head>
 <body>
-    <h3>Products</h3>
-    <table class="table-condensed">
-        <tr>
-            <td>Name</td>
-            <td>Price</td>
-            <td></td>
-        </tr>
+
+    <div class="products-container">
+        <h3>Products</h3>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Price</td>
-                <td><a href="~/Home/Buy/@item.Id">Buy</a></td>
-            </tr>
+            <div class="product">
+                <div class="product-name">
+                    <h3>@item.Name</h3>
+                </div>
+                <div class="product-image">
+                    @if (item.ImagePath != null)
+                    {
+                        <a href="~/Home/Buy/@item.Id">
+                            <img src="@item.ImagePath"
+                                 width="250"
+                                 height="200" />
+                        </a>
+                    }
+                </div>
+
+                <div class="product-description">
+                    <p class="price">Price: @item.Price</p>
+                    <a href="~/Home/Buy/@item.Id">Buy</a>
+                </div>
+
+            </div>
         }
-    </table>
+    </div>
+
 </body>
 </html>

@@ -14,13 +14,15 @@ namespace MVCTest.Models.Product
         public string Name { get; set; }
 
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         public int Quantity { get; set; }
 
         public string Description { get; set; }
 
         public ICollection<OrderItem> OrderItems { get; set; }
+
+        public string ImagePath { get; set; }
 
     }
 }

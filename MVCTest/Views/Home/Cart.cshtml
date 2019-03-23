@@ -3,9 +3,9 @@
 
 
 @{
-        Layout = "_Layout";
-        //ViewData["Title"] = "Cart";
-    }
+    Layout = "_Layout";
+    //ViewData["Title"] = "Cart";
+}
 
 <!DOCTYPE html>
 <html>
@@ -13,6 +13,7 @@
     <title>Cart</title>
 </head>
 <body>
+
     <form method="post" class="form-horizontal" role="form">
         <table class="table-condensed">
 
@@ -21,12 +22,16 @@
             {
                 <tr>
                     <td>@item.Product.Name</td>
-                    <td>@item.Product.Price</td>
+                    <td>@item.Product.Price &nbsp;x</td>
                     <td><input type="text" value="@item.Quantity" name="Quantity" /></td>
+
+
+                    @*<td><input type="button" value="@item." name="ItemsToDelete" id="btn" /></td>*@
+                    <td><button type="submit" value="@item.Id" name="ItemsToDelete">Delete</button></td>
                 </tr>
             }
 
-            <td><input type="hidden" value="@Model.First().OrderId" name="OrderId" /></td>
+            <tr><td><input type="hidden" value="@Model.First().OrderId" name="OrderId" /></td></tr>
 
         </table>
         <input type="submit" value="Submit" />
