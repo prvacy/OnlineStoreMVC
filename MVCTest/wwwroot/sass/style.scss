@@ -1,2 +1,49 @@
-﻿body {
+﻿@import "reset.scss";
+
+body{
+    background-color: #343434;
+    color: white;
 }
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+
+    padding: 5% 3% 5% 3%;
+
+    & .cat {
+        width: 15%;
+        min-width: 15%;
+        height: auto;
+    }
+
+
+
+    & .products-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap:wrap;
+
+        height: 100%;
+        min-height: 100%;
+
+
+        & .product {
+            width: 15%;
+            height: 30%;
+            margin-right: 5%;
+
+            & .image {
+                width: 100%;
+            }
+        }
+    }
+}
+    
+
+
+

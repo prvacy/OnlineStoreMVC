@@ -12,36 +12,46 @@
 <html>
 <head>
     <title>Buy a lot of goods!</title>
-    <link href="~/css/Index.css" rel="stylesheet" />
+    @*<link href="~/css/Index.css" rel="stylesheet" />*@
+    <link href="~/css/style.css" rel="stylesheet" />
 </head>
 <body>
 
-    <div class="products-container">
-        <h3>Products</h3>
-        @foreach (var item in Model)
-        {
-            <div class="product">
-                <div class="product-name">
-                    <h3>@item.Name</h3>
-                </div>
-                <div class="product-image">
-                    @if (item.ImagePath != null)
-                    {
-                        <a href="~/Home/Buy/@item.Id">
-                            <img src="@item.ImagePath"
-                                 width="250"
-                                 height="200" />
-                        </a>
-                    }
-                </div>
+    <div class="wrapper">
+        <div class="cat">
+            <p>Beverages</p>
+            <p>Foods</p>
+            <p>Alcohol</p>
+            <p>Meats</p>
+        </div>
 
-                <div class="product-description">
-                    <p class="price">Price: @item.Price</p>
-                    <a href="~/Home/Buy/@item.Id">Buy</a>
-                </div>
+        <div class="products-container">
+            @*<h3>Products</h3>*@
+            @foreach (var item in Model)
+            {
+                <div class="product">
+                    <div class="product-name">
+                        <h3>@item.Name</h3>
+                    </div>
+                    <div class="product-image" >
+                        @if (item.ImagePath != null)
+                        {
+                            <a href="~/Home/Buy/@item.Id">
+                                <img src="@item.ImagePath"
+                                     @*width="250"
+                                     height="200"*@ class="image"/>
+                            </a>
+                        }
+                    </div>
 
-            </div>
-        }
+                    <div class="product-description">
+                        <p class="price">Price: @item.Price</p>
+                        <a href="~/Home/Buy/@item.Id">Buy</a>
+                    </div>
+
+                </div>
+            }
+        </div>
     </div>
 
 </body>
