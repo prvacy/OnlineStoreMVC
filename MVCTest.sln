@@ -5,11 +5,6 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCTest", "MVCTest\MVCTest.csproj", "{CF1D4BB6-70E2-4E60-A7CF-22534113ED54}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DBBackup", "DBBackup", "{7774BE30-5756-4220-B65B-DE2DD1572B46}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\productstoredb.bak = ..\..\..\productstoredb.bak
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

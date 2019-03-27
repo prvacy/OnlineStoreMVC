@@ -48,7 +48,7 @@ namespace MVCTest.Controllers
             await db.AddAsync(product);
             await db.SaveChangesAsync();
 
-            return View("~/Views/Home/Index.cshtml"); //TODO: redirect to success
+            return RedirectToAction("Index", "Home");/*View("~/Views/Home/Index.cshtml")*/; //TODO: redirect to success
         }
 
 

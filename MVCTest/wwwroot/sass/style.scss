@@ -8,17 +8,26 @@ body{
 .wrapper {
     display: flex;
     flex-direction: row;
-
     min-height: 100%;
     height: 100%;
     width: 100%;
-
     padding: 5% 3% 5% 3%;
 
     & .cat {
         width: 15%;
         min-width: 15%;
         height: auto;
+
+        & .maincat {
+            font-size: 22px;
+
+            & .subcat {
+                font-size: 18px;
+                margin-left: 20px;
+            }
+        }
+
+
     }
 
 
@@ -26,8 +35,7 @@ body{
     & .products-container {
         display: flex;
         flex-direction: row;
-        flex-wrap:wrap;
-
+        flex-wrap: wrap;
         height: 100%;
         min-height: 100%;
 
@@ -43,6 +51,19 @@ body{
             }
         }
     }
+}
+
+#c1 {
+    display: block;
+
+    &:hover + #s1 {
+        font-size: 18px;
+        display: block;
+    }
+}
+
+#s1 {
+    display: none;
 }
     
 

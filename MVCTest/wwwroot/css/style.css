@@ -50,6 +50,11 @@ body {
     width: 15%;
     min-width: 15%;
     height: auto; }
+    .wrapper .cat .maincat {
+      font-size: 22px; }
+      .wrapper .cat .maincat .subcat {
+        font-size: 18px;
+        margin-left: 20px; }
   .wrapper .products-container {
     display: flex;
     flex-direction: row;
@@ -63,3 +68,12 @@ body {
       margin-bottom: 5%; }
       .wrapper .products-container .product .image {
         width: 100%; }
+
+#c1 {
+  display: block; }
+  #c1:hover + #s1 {
+    font-size: 18px;
+    display: block; }
+
+#s1 {
+  display: none; }
