@@ -4,14 +4,16 @@ using MVCTest.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MVCTest.Migrations
 {
     [DbContext(typeof(SiteDbContext))]
-    partial class SiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190327134413_category")]
+    partial class category
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,8 +106,6 @@ namespace MVCTest.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("CategoryId");
-
-                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 

@@ -19,6 +19,10 @@ namespace MVCTest.Models
 
         public DbSet<OrderItem> OrderItems { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<SubCategory> SubCategories { get; set; }
+
         public SiteDbContext(DbContextOptions<SiteDbContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -27,6 +31,8 @@ namespace MVCTest.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().Property(i => i.IsSubmitted).HasDefaultValue(false);
+
+                
         }
 
     }

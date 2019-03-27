@@ -57,8 +57,9 @@ body {
     height: 100%;
     min-height: 100%; }
     .wrapper .products-container .product {
-      width: 15%;
-      height: 30%;
-      margin-right: 5%; }
+      width: 200px;
+      height: 250px;
+      margin-right: 5%;
+      margin-bottom: 5%; }
       .wrapper .products-container .product .image {
         width: 100%; }

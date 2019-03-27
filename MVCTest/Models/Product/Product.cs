@@ -20,9 +20,15 @@ namespace MVCTest.Models.Product
 
         public string Description { get; set; }
 
-        public ICollection<OrderItem> OrderItems { get; set; }
-
         public string ImagePath { get; set; }
 
+
+        #region References
+
+        public ICollection<OrderItem> OrderItems { get; set; } //SubCategory 1-m Product 
+
+        public SubCategory SubCategory { get; set; } // 1 to 1 |Product 1-1 SubCategory
+
+        #endregion
     }
 }

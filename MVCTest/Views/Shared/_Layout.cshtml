@@ -19,13 +19,16 @@
             </div>
 
             <div>
-
                 <ul class="nav navbar-nav navbar-right">
                     @{
                         if (ViewBag.Login == null)
                         {
                             <li><a href="~/Auth/Register" class="navbar-brand">Register</a></li>
                             <li><a href="~/Auth/Login" class="navbar-brand">Login</a></li>
+                        }
+                        else if (ViewBag.Login == "admin")
+                        {
+                            <li><a href="~/Editor/" class="navbar-brand" >Add product</a></li>
                         }
                         else
                         {
@@ -35,12 +38,10 @@
                         if (ViewBag.cartNotEmpty)
                         {
                             <li><a href="~/Home/Cart" class="navbar-brand">Cart</a></li>
-                            
-                        }   
+                        }
 
                     }
-                </ul>
-                <i
+                </ul>   
             </div>
 
         </div>
@@ -48,7 +49,7 @@
 
     </nav>
     <!--основной контент-->
-    <div @*class="container body-content"*@ style="height:100%; min-height: 70%;">
+    <div @*class="container body-content" *@ style="height:100%; min-height: 70%;">
         @RenderBody()
 
         <footer style="position:fixed; left:0; bottom:0">
