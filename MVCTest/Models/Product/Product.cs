@@ -25,9 +25,11 @@ namespace MVCTest.Models.Product
 
         #region References
 
-        public ICollection<OrderItem> OrderItems { get; set; } //SubCategory 1-m Product 
+        public ICollection<OrderItem> OrderItems { get; set; } //Product 1-m OrderItems
 
-        public SubCategory SubCategory { get; set; } // 1 to 1 |Product 1-1 SubCategory
+        public SubCategory SubCategory { get; set; } // 1 to 1 |Product 1-m SubCategory
+
+        public int? SubCategoryId { get; set; }
 
         #endregion
     }

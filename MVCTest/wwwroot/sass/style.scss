@@ -5,6 +5,10 @@ body{
     color: white;
 }
 
+input, button {
+    color:black;
+}
+
 .wrapper {
     display: flex;
     flex-direction: row;
@@ -17,13 +21,26 @@ body{
         width: 15%;
         min-width: 15%;
         height: auto;
+        margin-right: 5%;
 
         & .maincat {
             font-size: 22px;
+            padding: 5px 5px;
+            margin-bottom: 10px;
+
+            border-style: solid;
+            border-color: darkmagenta;
+            border-width: 4px;
 
             & .subcat {
+                display: none;
                 font-size: 18px;
                 margin-left: 20px;
+
+                & a:visited, a:link {
+                    color: white;
+                    
+                }
             }
         }
 
@@ -46,6 +63,11 @@ body{
             margin-right: 5%;
             margin-bottom: 5%;
 
+            &-name {
+                font-size: 18px;
+                max-height: 18px;
+            }
+
             & .image {
                 width: 100%;
             }
@@ -55,12 +77,8 @@ body{
 
 #c1 {
     display: block;
-
-    &:hover + #s1 {
-        font-size: 18px;
-        display: block;
-    }
 }
+
 
 #s1 {
     display: none;

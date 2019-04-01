@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using MVCTest.Models;
 using MVCTest.Models.Product;
 using MVCTest.Models.User;
+using MVCTest.Models.ViewModels;
 
 
 namespace MVCTest.Controllers
@@ -22,29 +24,49 @@ namespace MVCTest.Controllers
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string subcat)
         {
-            //var cart = db2.Orders.Include(i => i.OrderItems).Single(i => i.OrderId == 4).OrderItems;
+            var vm = new IndexVM
+            {
+                Categories = await db.Categories
+                    .Include(c => c.SubCategories)
+                    .Select(i => i).ToListAsync()
+            };
 
-            return View(db.Products.ToList());
-            //return View(cart.ToList());
+            if (!String.IsNullOrEmpty(subcat))
+            {
+                var subc = await db.SubCategories.SingleOrDefaultAsync(s => s.Name == subcat);
+                var selProducts = db.Products.Where(p => subc == p.SubCategory);
+
+                vm.Products = await selProducts.ToListAsync();
+                return View(vm);
+            }
+            else
+            {
+                var selProducts = db.Products
+                    .Include(i => i.SubCategory)
+                    .Select(p => p);
+
+                vm.Products = await selProducts.ToListAsync();
+                return View(vm);
+            }
         }
 
 
         [HttpGet]
-        public IActionResult Buy(int id)
+        public async Task<IActionResult> Buy(int id)
         {
             ViewBag.ProductId = id;
-            var product = db.Products.SingleOrDefault(i => i.Id == id);
+            var product = await db.Products.SingleOrDefaultAsync(i => i.Id == id);
             return View(product);
         }
 
         [HttpPost]
-        public IActionResult Buy(int ProductId, int Quantity)
+        public async Task<IActionResult> Buy(int ProductId, int Quantity)
         {
 
             var orderitem = new OrderItem();
-            var product = db.Products.SingleOrDefault(i => i.Id == ProductId);//may be null
+            var product = await db.Products.SingleOrDefaultAsync(i => i.Id == ProductId);//may be null
 
             orderitem.Product = product;
             orderitem.Quantity = Quantity;
@@ -54,9 +76,9 @@ namespace MVCTest.Controllers
             {
                 var order = new Order();
                 orderitem.Order = order;
-                db.OrderItems.Add(orderitem);
-                db.Orders.Add(order);
-                db.SaveChanges();
+                await db.OrderItems.AddAsync(orderitem);
+                await db.Orders.AddAsync(order);
+                await db.SaveChangesAsync();
 
 
                 HttpContext.Response.Cookies.Append("order-id", Convert.ToString(order.Id));
@@ -64,20 +86,22 @@ namespace MVCTest.Controllers
             }
             else
             {
-                var cart = db.Orders.Include(i=>i.OrderItems)
-                    .SingleOrDefault(i => i.Id == Convert.ToInt32(cartId));
+                var cart = await db.Orders
+                    .Include(i => i.OrderItems)
+                    .SingleOrDefaultAsync(i => i.Id == Convert.ToInt32(cartId));
 
-                var prodInCart = cart.OrderItems.SingleOrDefault(i => i.ProductId == ProductId && i.OrderId == Convert.ToInt32(cartId));
+                var prodInCart = cart.OrderItems
+                    .SingleOrDefault(i => i.ProductId == ProductId && i.OrderId == Convert.ToInt32(cartId));
                 if (prodInCart == null)
                 {
-                    db.OrderItems.Add(orderitem);
+                    await db.OrderItems.AddAsync(orderitem);
                     cart.OrderItems.Add(orderitem);
                 }
                 else
                 {
                     prodInCart.Quantity += Quantity;
                 }
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
 
 
@@ -86,41 +110,55 @@ namespace MVCTest.Controllers
 
 
         [HttpGet]
-        public IActionResult Cart()
+        public async Task<IActionResult> Cart()
         {
             var cartId = HttpContext.Request.Cookies["order-id"];
-            var cart = db.OrderItems.Include(i => i.Order)
+            var cart = db.OrderItems
+                .Include(i => i.Order)
                 .Include(i => i.Product)
                 .Where(i => i.OrderId == Convert.ToInt32(cartId));
 
-            return View(cart.ToList());
+            return View(await cart.ToListAsync());
         }
 
         [HttpPost]
-        public IActionResult Cart(int[] Quantity, string[] ItemsToDelete, int OrderId)
+        public async Task<IActionResult> Cart(int[] Quantity, string[] ItemsToDelete, int OrderId)
         {
-            var order = db.Orders.SingleOrDefault(i => i.Id == OrderId);
+            var order = await db.Orders.SingleOrDefaultAsync(i => i.Id == OrderId);
             var orderItems = db.OrderItems.Where(i => i.OrderId == OrderId);
             int it = 0;
-            foreach (var item in orderItems)
-            {
-                if (item.Quantity != Quantity[it]) 
+
+            orderItems.AsParallel()
+                .Select(all => all)
+                .ForAll(item =>
                 {
-                    item.Quantity = Quantity[it];
-                }
-                it++;
-            }
+                    if (item.Quantity != Quantity[it])
+                    {
+                        item.Quantity = Quantity[it];
+                    }
+                    it++;
+                });
+            
+
+            //foreach (var item in orderItems)
+            //{
+            //    if (item.Quantity != Quantity[it]) 
+            //    {
+            //        item.Quantity = Quantity[it];
+            //    }
+            //    it++;
+            //}
 
             if (ItemsToDelete.FirstOrDefault() != null)
             {
                 foreach (var item in ItemsToDelete)
                 {
-                    db.OrderItems.Remove(orderItems.SingleOrDefault(i => i.Id == Convert.ToInt32(item)));//TODO: if no elements display that cart is empty
-                    db.SaveChanges();
+                    db.OrderItems.Remove(await orderItems.SingleOrDefaultAsync(i => i.Id == Convert.ToInt32(item)));//TODO: if no elements display that cart is empty
+                    await db.SaveChangesAsync();
                 }
                 var cart = db.OrderItems.Include(i => i.Product)
-                    .Where(i => i.OrderId == OrderId).ToArray();
-                return View(cart.ToList());
+                    .Where(i => i.OrderId == OrderId);
+                return View(await cart.ToListAsync());
             }
             else
             {
@@ -129,7 +167,7 @@ namespace MVCTest.Controllers
 
                 db.OrderItems.UpdateRange(orderItems);
                 db.Orders.Update(order);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
 
                 return View();//TODO: redirect to success page
             }
