@@ -1,7 +1,9 @@
-﻿
+﻿@model ICollection<MVCTest.Models.Product.Category>
+
 @{
     ViewData["Title"] = "Product";
     Layout = "_Layout";
+
 }
 
 <!DOCTYPE html>
@@ -9,16 +11,17 @@
 <head>
     <title></title>
     <style>
-        body{
+        body {
             color: ghostwhite;
         }
-        input{
+
+        input, textarea, select {
             color: black;
         }
     </style>
 </head>
 <body>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <table class="table-condensed">
             <tr>
                 <td>Name:</td>
@@ -27,7 +30,7 @@
 
             <tr>
                 <td>Price:</td>
-                <td><input type="text" name="Price" /></td>
+                <td><input type="text" name="Price_string" step="0.05" /></td>
             </tr>
 
             <tr>
@@ -37,7 +40,7 @@
 
             <tr>
                 <td>Description:</td>
-                <td><input type="text" name="Description" /></td>
+                <td><textarea name="Description"></textarea> </td>
             </tr>
 
             <tr>
@@ -45,9 +48,29 @@
                 <td><input type="text" name="ImagePath" /></td>
             </tr>
 
+
             <tr>
                 <td>Category:</td>
-                <td><input type="text" name="SubCategory" /></td>
+                <td>
+                    <select name="subCategoryId">
+                        @foreach (var item in Model)
+                        {
+                            <optgroup label="@item.Name">
+
+                                @foreach (var subc in item.SubCategories)
+                                {
+                                    <option value="@subc.Id">@subc.Name</option>
+                                }
+
+                            </optgroup>
+                        }
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Image:</td>
+                <td><input type="file" @*accept="image/png, image/jpeg" *@ name="file" /></td>
             </tr>
 
             <tr>
