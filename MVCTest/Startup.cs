@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MVCTest.Services;
 
 namespace MVCTest
 {
@@ -43,8 +42,6 @@ namespace MVCTest
 
             services.AddDistributedMemoryCache();//Sessions
             services.AddSession();               //
-
-            services.AddTransient<IFilterService, FilterService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,30 +67,13 @@ namespace MVCTest
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action}"
-                    );
-
-                routes.MapRoute(
-                    name: "buy",
                     template: "{controller=Home}/{action=Index}/{id?}"
                     );
 
                 routes.MapRoute(
-                    name: "filter",
-                    template: "{controller=Home}/{action=Index}/{IndexFilter?}"
+                    name: "register",
+                    template: "{controller=Auth}/{action=Register}"
                     );
-
-                routes.MapRoute(
-                    name: "test",
-                    template: "{controller=Test}/{action=Run}"
-                    );  
-
-                //routes.MapRoute(
-                //    name: "register",
-                //    template: "{controller=Auth}/{action=Register}"
-                //    );
-
-
             });
         }
     }

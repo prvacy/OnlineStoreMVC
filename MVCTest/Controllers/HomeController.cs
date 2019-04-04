@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using MVCTest.Models;
-using MVCTest.Models.Filters;
 using MVCTest.Models.Product;
 using MVCTest.Models.User;
 using MVCTest.Models.ViewModels;
-using MVCTest.Services;
+
 
 namespace MVCTest.Controllers
 {
@@ -19,65 +18,38 @@ namespace MVCTest.Controllers
     {
 
         SiteDbContext db;
-        IFilterService filterService;
-
-        public HomeController(SiteDbContext context, IFilterService _filter) : base(context)
+        public HomeController(SiteDbContext context) : base(context)
         {
             db = context;
-            filterService = _filter;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            var vm = new IndexVM
-            {
-                Categories = await db.Categories
-                .Include(c => c.SubCategories)
-                .Select(i => i).ToListAsync(),
-
-                Products = await db.Products
-                .Include(i => i.SubCategory)
-                .Select(a => a).ToListAsync()
-            };
-            return View(vm);
         }
 
 
-        public async Task<IActionResult> Index(IndexFilter filters)
+        public async Task<IActionResult> Index(string subcat)
         {
-            var selProd = await filterService.Filter(filters);
             var vm = new IndexVM
             {
                 Categories = await db.Categories
                     .Include(c => c.SubCategories)
-                    .Select(i => i).ToListAsync(),
-                Products = await selProd.ToListAsync()
+                    .Select(i => i).ToListAsync()
             };
 
-            return View(vm);
+            if (!String.IsNullOrEmpty(subcat))
+            {
+                var subc = await db.SubCategories.SingleOrDefaultAsync(s => s.Name == subcat);
+                var selProducts = db.Products.Where(p => subc == p.SubCategory);
 
+                vm.Products = await selProducts.ToListAsync();
+                return View(vm);
+            }
+            else
+            {
+                var selProducts = db.Products
+                    .Include(i => i.SubCategory)
+                    .Select(p => p);
 
-
-            //if (!String.IsNullOrEmpty(subcat))
-            //{
-            //    var subc = await db.SubCategories.SingleOrDefaultAsync(s => s.Name == subcat);
-            //    var selProducts = db.Products.Where(p => subc == p.SubCategory);
-
-            //    vm.Products = await selProducts.ToListAsync();
-            //    return View(vm);
-            //}
-            //else
-            //{
-            //    var selProducts = db.Products
-            //        .Include(i => i.SubCategory)
-            //        .Select(p => p);
-
-            //    vm.Products = await selProducts.ToListAsync();
-            //    return View(vm);
-            //}
-
-
-
+                vm.Products = await selProducts.ToListAsync();
+                return View(vm);
+            }
         }
 
 
@@ -166,7 +138,7 @@ namespace MVCTest.Controllers
                     }
                     it++;
                 });
-
+            
 
             //foreach (var item in orderItems)
             //{

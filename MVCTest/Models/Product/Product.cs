@@ -14,9 +14,9 @@ namespace MVCTest.Models.Product
         public string Name { get; set; }
 
         [Required]
-        public double Price { get; set; } //min:0, max: 100 000 000
+        public double Price { get; set; }
 
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         public string Description { get; set; }
 
