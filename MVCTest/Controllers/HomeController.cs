@@ -10,7 +10,7 @@ using MVCTest.Models;
 using MVCTest.Models.Product;
 using MVCTest.Models.User;
 using MVCTest.Models.ViewModels;
-
+using MVCTest.Services;
 
 namespace MVCTest.Controllers
 {
@@ -18,9 +18,12 @@ namespace MVCTest.Controllers
     {
 
         SiteDbContext db;
-        public HomeController(SiteDbContext context) : base(context)
+        IFilterService filter;
+
+        public HomeController(SiteDbContext context, IFilterService _filter) : base(context)
         {
             db = context;
+            filter = _filter;
         }
 
 
@@ -32,6 +35,8 @@ namespace MVCTest.Controllers
                     .Include(c => c.SubCategories)
                     .Select(i => i).ToListAsync()
             };
+
+            
 
             if (!String.IsNullOrEmpty(subcat))
             {
