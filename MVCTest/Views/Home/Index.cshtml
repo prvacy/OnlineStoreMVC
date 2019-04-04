@@ -25,7 +25,8 @@
                     <div class="subcat">
                         @foreach (var subc in category.SubCategories)
                         {
-                            <a href="~/Home/Index?subcat=@subc.Name">@subc.Name<br /></a>
+                            @*<a href="~/Home/Index?subcat=@subc.Name">@subc.Name<br /></a>*@
+                            <a href="~/Home/Index?subcatId=@subc.Id">@subc.Name<br /></a>
                         }
                     </div>
                 </div>

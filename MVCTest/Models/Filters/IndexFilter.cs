@@ -7,10 +7,10 @@ namespace MVCTest.Models.Filters
 {
     public class IndexFilter
     {
-        public string SubCategory { get; set; }
+        public int? SubCategoryId { get; set; }
 
-        public int MinPrice { get; set; }
+        public double? MinPrice { get; set; }
 
-        public int MaxPrice { get; set; }
+        public double? MaxPrice { get; set; }
     }
 }

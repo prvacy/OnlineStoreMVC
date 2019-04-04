@@ -1,4 +1,5 @@
 ﻿using MVCTest.Models.Filters;
+using MVCTest.Models.Product;
 using MVCTest.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,6 @@ namespace MVCTest.Services
 {
     public interface IFilterService
     {
-        IndexVM Filter(IndexFilter filter);
+        Task<List<Product>> Filter(IndexFilter filter);
     }
 }

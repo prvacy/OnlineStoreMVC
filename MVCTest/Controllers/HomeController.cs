@@ -18,16 +18,16 @@ namespace MVCTest.Controllers
     {
 
         SiteDbContext db;
-        IFilterService filter;
+        IFilterService filterService;
 
         public HomeController(SiteDbContext context, IFilterService _filter) : base(context)
         {
             db = context;
-            filter = _filter;
+            filterService = _filter;
         }
 
 
-        public async Task<IActionResult> Index(string subcat)
+        public async Task<IActionResult> Index(string subcat, int? subcatId, double? minPrice, double? maxPrice)
         {
             var vm = new IndexVM
             {
@@ -36,25 +36,31 @@ namespace MVCTest.Controllers
                     .Select(i => i).ToListAsync()
             };
 
-            
+            vm.Products = await
+                filterService.Filter(new Models.Filters.IndexFilter
+                {
+                    SubCategoryId = subcatId, MinPrice = minPrice, MaxPrice = maxPrice
+                });
 
-            if (!String.IsNullOrEmpty(subcat))
-            {
-                var subc = await db.SubCategories.SingleOrDefaultAsync(s => s.Name == subcat);
-                var selProducts = db.Products.Where(p => subc == p.SubCategory);
+            return View(vm);
 
-                vm.Products = await selProducts.ToListAsync();
-                return View(vm);
-            }
-            else
-            {
-                var selProducts = db.Products
-                    .Include(i => i.SubCategory)
-                    .Select(p => p);
+            //if (!String.IsNullOrEmpty(subcat))
+            //{
+            //    var subc = await db.SubCategories.SingleOrDefaultAsync(s => s.Name == subcat);
+            //    var selProducts = db.Products.Where(p => subc == p.SubCategory);
 
-                vm.Products = await selProducts.ToListAsync();
-                return View(vm);
-            }
+            //    vm.Products = await selProducts.ToListAsync();
+            //    return View(vm);
+            //}
+            //else
+            //{
+            //    var selProducts = db.Products
+            //        .Include(i => i.SubCategory)
+            //        .Select(p => p);
+
+            //    vm.Products = await selProducts.ToListAsync();
+            //    return View(vm);
+            //}
         }
 
 
