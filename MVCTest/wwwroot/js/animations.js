@@ -1,21 +1,30 @@
-﻿
-var maincat = document.getElementsByClassName("maincat")
+﻿var maincat = document.getElementsByClassName("maincat")
+
+let active_item = document.getElementById(sessionStorage.getItem("active_item_id"))
+console.log(active_item)
 
 function show() {
-
-    var subcat = this.getElementsByClassName("subcat")[0]
-
-    if (subcat.style.display == "block") {
-        subcat.style.display = "none"
-        console.log("Hide s1")
+    if (active_item == null) {
+        console.log("undef")
+        let subcat = this.getElementsByClassName("subcat")[0]
+        subcat.className = "subcat-show"
+        active_item = subcat
+        sessionStorage.setItem("active_item_id", subcat.id)
     }
     else {
-        subcat.style.display = "block"
-        console.log("Show s1")
+        if (active_item != this) {
+            active_item.className = "subcat"
+            let subcat = this.getElementsByClassName("subcat")[0]
+            subcat.className = "subcat-show"
+            active_item = subcat
+            sessionStorage.setItem("active_item_id", subcat.id)
+        }
+
     }
+
+    
 }
 
-//maincat.addEventListener("click", show2)
 
 Array.from(maincat).forEach(function (item) {
     item.addEventListener("click", show, false)

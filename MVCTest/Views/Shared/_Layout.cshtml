@@ -14,7 +14,10 @@
         <div class="container">
             <div>
                 <ul class="nav navbar-nav">
-                    <li><a href="~/Home/Index" class="navbar-brand">Main Page</a></li>
+                    @{
+                        
+                    }
+                    <li><a href="~/Home/Index?loadAll=true" class="navbar-brand">Main Page</a></li>
                 </ul>
             </div>
 
@@ -26,7 +29,7 @@
                             <li><a href="~/Auth/Register" class="navbar-brand">Register</a></li>
                             <li><a href="~/Auth/Login" class="navbar-brand">Login</a></li>
                         }
-                        else if (ViewBag.Login == "admin")
+                        else if (ViewBag.Login == "admin") //TODO: not safe!!!
                         {
                             <li><a href="~/Editor/" class="navbar-brand" >Add product</a></li>
                         }

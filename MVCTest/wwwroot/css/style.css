@@ -55,18 +55,26 @@ input, button {
     height: auto;
     margin-right: 5%; }
     .wrapper .cat .maincat {
+      display: block;
       font-size: 22px;
       padding: 5px 5px;
       margin-bottom: 10px;
       border-style: solid;
       border-color: darkmagenta;
       border-width: 4px; }
-      .wrapper .cat .maincat .subcat {
-        display: none;
+      .wrapper .cat .maincat .subcat, .wrapper .cat .maincat .subcat-show {
         font-size: 18px;
         margin-left: 20px; }
-        .wrapper .cat .maincat .subcat a:visited, .wrapper .cat .maincat .subcat a:link {
+        .wrapper .cat .maincat .subcat a:visited, .wrapper .cat .maincat .subcat a:link, .wrapper .cat .maincat .subcat-show a:visited, .wrapper .cat .maincat .subcat-show a:link {
           color: white; }
+        .wrapper .cat .maincat .subcat-name, .wrapper .cat .maincat .subcat-show-name {
+          border: none;
+          background-color: none;
+          background: none; }
+      .wrapper .cat .maincat .subcat {
+        display: none; }
+      .wrapper .cat .maincat .subcat-show {
+        display: block; }
   .wrapper .products-container {
     display: flex;
     flex-direction: row;

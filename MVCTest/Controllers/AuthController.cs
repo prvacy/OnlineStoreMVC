@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVCTest.Encryptor;
 using MVCTest.Models;
 using MVCTest.Models.User;
@@ -13,10 +14,10 @@ namespace MVCTest.Controllers
 {
     public class AuthController : BaseController
     {
-        SiteDbContext db1;
+        SiteDbContext db;
         public AuthController(SiteDbContext context) : base(context)
         {
-            db1 = context;
+            db = context;
         }
 
 
@@ -40,8 +41,8 @@ namespace MVCTest.Controllers
                 var enc = new ServerEncryptor(Password);
                 user.Password = enc.Hash;
                 
-                db1.Users.Add(user);
-                db1.SaveChanges();
+                db.Users.Add(user);
+                db.SaveChanges();
                 ViewBag.Login = user.Login;
             }
             else return View();
@@ -59,14 +60,19 @@ namespace MVCTest.Controllers
         }
 
 
-
+        /// <summary>
+        /// Method for login
+        /// </summary>
+        /// <param name="Login">User login</param>
+        /// <param name="Password">User password</param>
+        /// <returns></returns>
         [HttpPost]
-        public IActionResult Login(string Login, string Password)
+        public async Task<IActionResult> Login(string Login, string Password) //TODO: user service to do this work
         {
             var enc = new ServerEncryptor(Password);//md-hash encryptor
             var pass = enc.Hash;
 
-            var selUser = db1.Users.Single(u => u.Login == Login);
+            var selUser = await db.Users.SingleOrDefaultAsync(u => u.Login == Login);
             if (selUser.Password.ToString() == pass.ToString())
             {
                 ViewBag.Login = Login;
@@ -97,7 +103,7 @@ namespace MVCTest.Controllers
                 HttpContext.Session.GetString("sessionId");
 
                 selUser.SessionId = sessionId;
-                db1.SaveChanges();
+                await db.SaveChangesAsync();
 
                 return View("~/Views/Auth/LoginSuccess.cshtml");
             }

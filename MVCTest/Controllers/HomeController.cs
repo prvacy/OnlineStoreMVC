@@ -27,20 +27,48 @@ namespace MVCTest.Controllers
         }
 
 
-        public async Task<IActionResult> Index(string subcat, int? subcatId, double? minPrice, double? maxPrice)
+        public async Task<IActionResult> Index(bool loadAll, int? subcatId, double? minPrice, double? maxPrice)
         {
+            //var currentSubc = HttpContext.Session.GetInt32("current_subc");
+            //if (!subcatId.HasValue && currentSubc.HasValue)
+            //{
+            //    subcatId = currentSubc;
+            //}
+
+            var currentSubc = TempData["currentSubc"] as int?;
+            if (!subcatId.HasValue && currentSubc.HasValue)
+            {
+                subcatId = currentSubc;
+            }
+
+            if (loadAll)
+            {
+                subcatId = null;
+            }
+
             var vm = new IndexVM
             {
                 Categories = await db.Categories
                     .Include(c => c.SubCategories)
-                    .Select(i => i).ToListAsync()
+                    .Select(i => i).ToListAsync(),
+
+                Products = await
+                    filterService.Filter(new Models.Filters.IndexFilter
+                    {
+                        SubCategoryId = subcatId,
+                        MinPrice = minPrice,
+                        MaxPrice = maxPrice
+                    })
             };
 
-            vm.Products = await
-                filterService.Filter(new Models.Filters.IndexFilter
-                {
-                    SubCategoryId = subcatId, MinPrice = minPrice, MaxPrice = maxPrice
-                });
+            if (subcatId.HasValue)
+            {
+                //HttpContext.Session.SetInt32("current_subc", subcatId.Value);
+                TempData["currentSubc"] = subcatId;
+            }
+
+
+
 
             return View(vm);
 

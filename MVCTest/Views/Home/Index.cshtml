@@ -17,62 +17,82 @@
 </head>
 <body>
     <div class="wrapper">
+        <div id="x" style="display:block"></div>
         <div class="cat">
-            @foreach (var category in Model.Categories)
-            {
-                <div class="maincat">
-                    <p>@category.Name</p>
+            <form>
+                @{int i = 0;}
+                @foreach (var category in Model.Categories)
+                {
+                    <div class="maincat">
+                        <p>@category.Name</p>
+                        <div class="subcat" id="subc_@i">
+
+                            @foreach (var subc in category.SubCategories)
+                            {
+                                @*<a href="~/Home/Index?subcatId=@subc.Id">@subc.Name<br /></a>
+                                    <input type="submit" value="@subc.Id" />*@
+                                <p><button type="submit" name="subcatId" class="subcat-name" value="@subc.Id">@subc.Name</button></p>
+                            }
+                        </div>
+                    </div>
+                    i++;
+                }
+
+                <div class="filter">
+                    <p>Price</p>
                     <div class="subcat">
-                        @foreach (var subc in category.SubCategories)
+                        <span class="currency_sign"></span>
+                        <input class="price_input" name="minPrice" />
+                        -
+                        <span class="currency_sign"></span>
+                        <input class="price_input" name="maxPrice" />
+                        <input type="submit" value="Ok" />
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script src="~/js/animations.js"></script>
+
+        <div class="products-container">
+            @*<h3>Products</h3>*@
+            @foreach (var item in Model.Products)
+            {
+                <div class="product">
+                    <div class="product-name">
+                        @item.Name
+                    </div>
+                    <div class="product-image">
+                        @if (item.ImagePath != null)
                         {
-                            @*<a href="~/Home/Index?subcat=@subc.Name">@subc.Name<br /></a>*@
-                            <a href="~/Home/Index?subcatId=@subc.Id">@subc.Name<br /></a>
+                            <a href="~/Home/Buy/@item.Id">
+                                <img src="@item.ImagePath"
+                                     @*width="250"
+                                 height="200" *@ class="image" />
+                            </a>
                         }
                     </div>
+
+                    <div class="product-description">
+                        <p class="price">Price: @item.Price</p>
+                        @{
+                            if (@item.SubCategoryId != null)
+                            {
+                                <p>Category: @item.SubCategory.Name</p>
+                            }
+                            else
+                            {
+                                <p>Category: No category</p>
+                            }
+                        }
+
+                        <a href="~/Home/Buy/@item.Id">Buy</a>
+                    </div>
+
                 </div>
             }
         </div>
-
-    <script src="~/js/animations.js"></script>
-
-    <div class="products-container">
-        @*<h3>Products</h3>*@
-        @foreach (var item in Model.Products)
-        {
-            <div class="product">
-                <div class="product-name">
-                    @item.Name
-                </div>
-                <div class="product-image">
-                    @if (item.ImagePath != null)
-                    {
-                        <a href="~/Home/Buy/@item.Id">
-                            <img src="@item.ImagePath"
-                                 @*width="250"
-                                 height="200" *@ class="image" />
-                        </a>
-                    }
-                </div>
-
-                <div class="product-description">
-                    <p class="price">Price: @item.Price</p>
-                    @{
-                        if (@item.SubCategoryId != null)
-                        {
-                            <p>Category: @item.SubCategory.Name</p>
-                        }
-                        else
-                        {
-                            <p>Category: No category</p>
-                        }
-                    }
-
-                    <a href="~/Home/Buy/@item.Id">Buy</a>
-                </div>
-
-            </div>
-        }
-    </div>
     </div>
 
 </body>
