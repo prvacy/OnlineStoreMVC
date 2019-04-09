@@ -91,9 +91,9 @@ input, button {
         max-height: 18px; }
       .wrapper .products-container .product .image {
         width: 100%; }
-
-#c1 {
-  display: block; }
-
-#s1 {
-  display: none; }
+    .wrapper .products-container .pages {
+      display: flex;
+      margin: 0 auto; }
+      .wrapper .products-container .pages .page-button {
+        width: 20px;
+        margin-right: 5px; }

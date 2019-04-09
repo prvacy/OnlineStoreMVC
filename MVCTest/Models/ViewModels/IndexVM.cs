@@ -14,5 +14,7 @@ namespace MVCTest.Models.ViewModels
         public List<SubCategory> SubCategories { get; set; }
 
         public List<Product.Product> Products { get; set; }
+
+        public int? PagesCount { get; set; }
     }
 }

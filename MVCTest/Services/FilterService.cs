@@ -13,12 +13,18 @@ namespace MVCTest.Services
 {
     public class FilterService : IFilterService
     {
-        SiteDbContext db;
+        private readonly SiteDbContext db;
+
+
+        public int PagesCount { get; private set; }
+        public int ItemsOnPage { get; set; } = 20;
+
         public FilterService(SiteDbContext dbContext)
         {
             db = dbContext;
         }
 
+        
         public async Task<List<Product>> Filter(IndexFilter filter)
         {
             #region private_members
@@ -28,6 +34,7 @@ namespace MVCTest.Services
 
             products = await FilterByCategoryAsync(products, filter.SubCategoryId);
             products = await FilterByPriceAsync(products, filter.MinPrice, filter.MaxPrice);
+            products = await FilterByPageAsync(products, filter.Page);
 
             return await products.ToListAsync();
         }
@@ -46,8 +53,8 @@ namespace MVCTest.Services
         {
             var priceRange = new
             {
-                min = minPrice.HasValue ? minPrice.Value : 0,
-                max = maxPrice.HasValue ? maxPrice.Value : 100000000
+                min = minPrice ?? 0,
+                max = maxPrice ?? 100000000
             };
 
             if (!(priceRange.min == 0 && priceRange.max == 100000000))
@@ -57,5 +64,32 @@ namespace MVCTest.Services
 
             return products;
         }
+
+        private async Task<IQueryable<Product>> FilterByPageAsync(IQueryable<Product> products, int? page)
+        {
+            async Task getPagesCount()
+            {
+                var prodCount = await products.CountAsync();
+                var pagesCount = prodCount / ItemsOnPage;
+                if (prodCount % ItemsOnPage == 0)
+                {
+                    PagesCount = pagesCount;
+                }
+                else
+                {
+                    PagesCount = ++pagesCount;
+                }
+            }
+            await getPagesCount();
+
+            page = page ?? 0;
+
+            var pageStart = page.Value * ItemsOnPage;
+            products = products.Skip(pageStart).Take(ItemsOnPage);
+
+
+            return products;
+        }
+
     }
 }

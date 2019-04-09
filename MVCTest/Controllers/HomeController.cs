@@ -27,13 +27,8 @@ namespace MVCTest.Controllers
         }
 
 
-        public async Task<IActionResult> Index(bool loadAll, int? subcatId, double? minPrice, double? maxPrice)
+        public async Task<IActionResult> Index(bool loadAll, int? subcatId, double? minPrice, double? maxPrice, int? page)
         {
-            //var currentSubc = HttpContext.Session.GetInt32("current_subc");
-            //if (!subcatId.HasValue && currentSubc.HasValue)
-            //{
-            //    subcatId = currentSubc;
-            //}
 
             var currentSubc = TempData["currentSubc"] as int?;
             if (!subcatId.HasValue && currentSubc.HasValue)
@@ -57,38 +52,20 @@ namespace MVCTest.Controllers
                     {
                         SubCategoryId = subcatId,
                         MinPrice = minPrice,
-                        MaxPrice = maxPrice
-                    })
+                        MaxPrice = maxPrice,
+                        Page = page
+                    }),
+
+                PagesCount = filterService.PagesCount
+
             };
 
             if (subcatId.HasValue)
             {
-                //HttpContext.Session.SetInt32("current_subc", subcatId.Value);
                 TempData["currentSubc"] = subcatId;
             }
 
-
-
-
             return View(vm);
-
-            //if (!String.IsNullOrEmpty(subcat))
-            //{
-            //    var subc = await db.SubCategories.SingleOrDefaultAsync(s => s.Name == subcat);
-            //    var selProducts = db.Products.Where(p => subc == p.SubCategory);
-
-            //    vm.Products = await selProducts.ToListAsync();
-            //    return View(vm);
-            //}
-            //else
-            //{
-            //    var selProducts = db.Products
-            //        .Include(i => i.SubCategory)
-            //        .Select(p => p);
-
-            //    vm.Products = await selProducts.ToListAsync();
-            //    return View(vm);
-            //}
         }
 
 

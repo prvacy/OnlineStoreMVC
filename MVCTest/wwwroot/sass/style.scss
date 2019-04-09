@@ -85,17 +85,18 @@ input, button {
                 width: 100%;
             }
         }
+
+        & .pages {
+            display: flex;
+            margin: 0 auto;
+            & .page-button {
+                width: 20px;
+                margin-right: 5px;
+            }
+        }
     }
 }
 
-#c1 {
-    display: block;
-}
-
-
-#s1 {
-    display: none;
-}
     
 
 

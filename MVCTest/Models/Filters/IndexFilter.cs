@@ -12,5 +12,7 @@ namespace MVCTest.Models.Filters
         public double? MinPrice { get; set; }
 
         public double? MaxPrice { get; set; }
+
+        public int? Page { get; set; }
     }
 }

@@ -10,6 +10,8 @@ namespace MVCTest.Services
 {
     public interface IFilterService
     {
+        int PagesCount { get; }
+        int ItemsOnPage { get; set; }
         Task<List<Product>> Filter(IndexFilter filter);
     }
 }

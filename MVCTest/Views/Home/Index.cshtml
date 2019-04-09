@@ -19,23 +19,23 @@
     <div class="wrapper">
         <div id="x" style="display:block"></div>
         <div class="cat">
-            <form>
-                @{int i = 0;}
+            <form id="filter">
+                @{int subc_it = 0;}
                 @foreach (var category in Model.Categories)
                 {
                     <div class="maincat">
                         <p>@category.Name</p>
-                        <div class="subcat" id="subc_@i">
+                        <div class="subcat" id="subc_@subc_it">
 
                             @foreach (var subc in category.SubCategories)
                             {
                                 @*<a href="~/Home/Index?subcatId=@subc.Id">@subc.Name<br /></a>
-                                    <input type="submit" value="@subc.Id" />*@
+                                <input type="submit" value="@subc.Id" />*@
                                 <p><button type="submit" name="subcatId" class="subcat-name" value="@subc.Id">@subc.Name</button></p>
                             }
                         </div>
                     </div>
-                    i++;
+                    subc_it++;
                 }
 
                 <div class="filter">
@@ -55,43 +55,55 @@
 
         <script src="~/js/animations.js"></script>
 
-        <div class="products-container">
-            @*<h3>Products</h3>*@
-            @foreach (var item in Model.Products)
-            {
-                <div class="product">
-                    <div class="product-name">
-                        @item.Name
-                    </div>
-                    <div class="product-image">
-                        @if (item.ImagePath != null)
-                        {
-                            <a href="~/Home/Buy/@item.Id">
-                                <img src="@item.ImagePath"
-                                     @*width="250"
+        <div>
+            <div class="products-container">
+                @foreach (var item in Model.Products)
+                {
+                    <div class="product">
+                        <div class="product-name">
+                            @item.Name
+                        </div>
+                        <div class="product-image">
+                            @if (item.ImagePath != null)
+                            {
+                                <a href="~/Home/Buy/@item.Id">
+                                    <img src="@item.ImagePath"
+                                         @*width="250"
                                  height="200" *@ class="image" />
-                            </a>
-                        }
-                    </div>
-
-                    <div class="product-description">
-                        <p class="price">Price: @item.Price</p>
-                        @{
-                            if (@item.SubCategoryId != null)
-                            {
-                                <p>Category: @item.SubCategory.Name</p>
+                                </a>
                             }
-                            else
-                            {
-                                <p>Category: No category</p>
+                        </div>
+
+                        <div class="product-description">
+                            <p class="price">Price: @item.Price</p>
+                            @{
+                                if (@item.SubCategoryId != null)
+                                {
+                                    <p>Category: @item.SubCategory.Name</p>
+                                }
+                                else
+                                {
+                                    <p>Category: No category</p>
+                                }
                             }
-                        }
 
-                        <a href="~/Home/Buy/@item.Id">Buy</a>
+                            <a href="~/Home/Buy/@item.Id">Buy</a>
+                        </div>
+
                     </div>
+                }
 
-                </div>
-            }
+
+            </div>
+            <div class="pages">
+                @if (Model.PagesCount != 1)
+                {
+                    @for (var i = 0; i < Model.PagesCount; i++)
+                    {
+                        <button name="page" value="@i" form="filter">@(i + 1)</button>
+                    }
+                }
+            </div>
         </div>
     </div>
 
