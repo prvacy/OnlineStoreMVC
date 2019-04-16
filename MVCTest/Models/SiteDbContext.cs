@@ -23,6 +23,10 @@ namespace MVCTest.Models
 
         public DbSet<SubCategory> SubCategories { get; set; }
 
+        public DbSet<WeightOption> WeightOptions { get; set; }
+
+        public DbSet<VolumeOption> VolumeOptions { get; set; }
+
         public SiteDbContext(DbContextOptions<SiteDbContext> options) : base(options)
         {
             Database.EnsureCreated();

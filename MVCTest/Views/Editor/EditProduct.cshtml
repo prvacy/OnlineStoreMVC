@@ -1,9 +1,9 @@
-﻿@model ICollection<MVCTest.Models.Product.Category>
+﻿@model MVCTest.Models.ViewModels.EditorProductVM
 
 @{
     ViewData["Title"] = "Product";
     Layout = "_Layout";
-
+    var product = Model.Product;
 }
 
 <!DOCTYPE html>
@@ -22,40 +22,41 @@
 </head>
 <body>
     <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="Id" value="@Model.Product.Id" />
         <table class="table-condensed">
             <tr>
                 <td>Name:</td>
-                <td><input type="text" name="Name" /> </td>
+                <td><input type="text" name="Name" value="@Model.Product.Name" /> </td>
             </tr>
 
             <tr>
                 <td>Price:</td>
-                <td><input type="text" name="Price_string" step="0.05" /></td>
+                <td><input type="text" name="Price_string" step="0.05" value="@product.Price" /></td>
             </tr>
 
             <tr>
                 <td>Quantity:</td>
-                <td><input type="number" name="Quantity" /></td>
+                <td><input type="number" name="Quantity" value="@product.Quantity" /></td>
             </tr>
 
             <tr>
                 <td>Description:</td>
-                <td><textarea name="Description"></textarea> </td>
+                <td><textarea name="Description" value="@product.Description"></textarea> </td>
             </tr>
 
             <tr>
                 <td>Weight:</td>
-                <td><input type="number" name="Weight_string"  step="0.05" /></td>
+                <td><input type="number" name="Weight_string" value="@product.Weight" step="0.05" /></td>
             </tr>
 
             <tr>
                 <td>Volume:</td>
-                <td><input type="number" name="Volume_string" step="0.05" /></td>
+                <td><input type="number" name="Volume_string" value="@product.Volume" step="0.05" /></td>
             </tr>
 
             <tr>
                 <td>ImagePath:</td>
-                <td><input type="text" name="ImagePath" /></td>
+                <td><input type="text" name="ImagePath" value="@product.ImagePath" /></td>
             </tr>
 
 
@@ -63,13 +64,21 @@
                 <td>Category:</td>
                 <td>
                     <select name="subCategoryId">
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Categories)
                         {
                             <optgroup label="@item.Name">
 
                                 @foreach (var subc in item.SubCategories)
                                 {
-                                    <option value="@subc.Id">@subc.Name</option>
+                                    if (subc.Id == product.SubCategoryId)
+                                    {
+                                        <option value="@subc.Id" selected>@subc.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@subc.Id">@subc.Name</option>
+                                    }
+
                                 }
 
                             </optgroup>
@@ -91,4 +100,3 @@
     </form>
 </body>
 </html>
-

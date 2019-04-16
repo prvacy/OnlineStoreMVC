@@ -17,27 +17,27 @@
 </head>
 <body>
     <div class="wrapper">
-        <div id="x" style="display:block"></div>
         <div class="cat">
             <form id="filter">
-                @{int subc_it = 0;}
-                @foreach (var category in Model.Categories)
-                {
-                    <div class="maincat">
-                        <p>@category.Name</p>
-                        <div class="subcat" id="subc_@subc_it">
+                <ul>
+                    @{int subc_it = 0;}
+                    @foreach (var category in Model.Categories)
+                    {
+                        <li class="maincat">
+                            <p>@category.Name</p>
+                            <ul class="subcat" id="subc_@subc_it">
 
-                            @foreach (var subc in category.SubCategories)
-                            {
-                                @*<a href="~/Home/Index?subcatId=@subc.Id">@subc.Name<br /></a>
-                                <input type="submit" value="@subc.Id" />*@
-                                <p><button type="submit" name="subcatId" class="subcat-name" value="@subc.Id">@subc.Name</button></p>
-                            }
-                        </div>
-                    </div>
-                    subc_it++;
-                }
-
+                                @foreach (var subc in category.SubCategories)
+                                {
+                                    @*<a href="~/Home/Index?subcatId=@subc.Id">@subc.Name<br /></a>
+                        <input type="submit" value="@subc.Id" />*@
+                                    <li><button type="submit" name="subcatId" class="subcat-name" value="@subc.Id">@subc.Name</button></li>
+                                }
+                            </ul>
+                        </li>
+                        subc_it++;
+                    }
+                </ul>
                 <div class="filter">
                     <p>Price</p>
                     <div class="subcat">
@@ -55,46 +55,44 @@
 
         <script src="~/js/animations.js"></script>
 
-        <div>
-            <div class="products-container">
-                @foreach (var item in Model.Products)
-                {
-                    <div class="product">
-                        <div class="product-name">
-                            @item.Name
-                        </div>
-                        <div class="product-image">
-                            @if (item.ImagePath != null)
-                            {
-                                <a href="~/Home/Buy/@item.Id">
-                                    <img src="@item.ImagePath"
-                                         @*width="250"
-                                 height="200" *@ class="image" />
-                                </a>
-                            }
-                        </div>
-
-                        <div class="product-description">
-                            <p class="price">Price: @item.Price</p>
-                            @{
-                                if (@item.SubCategoryId != null)
-                                {
-                                    <p>Category: @item.SubCategory.Name</p>
-                                }
-                                else
-                                {
-                                    <p>Category: No category</p>
-                                }
-                            }
-
-                            <a href="~/Home/Buy/@item.Id">Buy</a>
-                        </div>
-
+        
+        <div class="products-container">
+            @foreach (var item in Model.Products)
+            {
+                <div class="product">
+                    <div class="product-name">
+                        @item.Name
                     </div>
-                }
+                    <div class="product-image">
+                        @if (item.ImagePath != null)
+                        {
+                            <a href="~/Home/Buy/@item.Id">
+                                <img src="@item.ImagePath"
+                                     @*width="250"
+                                 height="200" *@ class="image" />
+                            </a>
+                        }
+                    </div>
 
+                    <div class="product-description">
+                        <p class="price">Price: @item.Price</p>
+                        @{
+                            if (@item.SubCategoryId != null)
+                            {
+                                <p>Category: @item.SubCategory.Name</p>
+                            }
+                            else
+                            {
+                                <p>Category: No category</p>
+                            }
+                        }
 
-            </div>
+                        <a href="~/Home/Buy/@item.Id">Buy</a>
+                    </div>
+
+                </div>
+            }
+
             <div class="pages">
                 @if (Model.PagesCount != 1)
                 {
@@ -105,7 +103,9 @@
                 }
             </div>
         </div>
-    </div>
+
+        </div>
+    
 
 </body>
 </html>

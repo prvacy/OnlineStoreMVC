@@ -14,15 +14,27 @@
     <form method="post" class="form-horizontal" role="form">
         <input type="hidden" value="@Model.Id" name="ProductId" />
         <div class="products-container">
+            <a href="~/Editor/EditProduct/?productId=@Model.Id">Edit</a>
+
             <p>@Model.Name <br /></p>
             <img src="@Model.ImagePath"
                  width="250"
                  height="200" />
-            <p><br />Quantity: <input type="text" name="Quantity" /> </p>
+            @if (Model.Weight.HasValue)
+            {
+                <p>Weight: @Model.Weight</p>
+            }
+            else if (Model.Volume.HasValue)
+            {
+                <p>Volume: @Model.Volume</p>
+            }
+
+            <p>Quantity: <input type="text" name="Quantity" /> </p>
+
 
             @*<p><input class="default-button" type="submit" value="Submit" /> </p>*@
             <p class="default-button"><button type="submit" class="default-button">Submit</button></p>
-            
+
         </div>
     </form>
 </body>

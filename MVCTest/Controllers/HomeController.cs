@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 using MVCTest.Models;
 using MVCTest.Models.Product;
-using MVCTest.Models.User;
 using MVCTest.Models.ViewModels;
 using MVCTest.Services;
 

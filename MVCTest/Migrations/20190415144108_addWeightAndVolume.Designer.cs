@@ -4,14 +4,16 @@ using MVCTest.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MVCTest.Migrations
 {
     [DbContext(typeof(SiteDbContext))]
-    partial class SiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190415144108_addWeightAndVolume")]
+    partial class addWeightAndVolume
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,40 +120,6 @@ namespace MVCTest.Migrations
                     b.ToTable("SubCategories");
                 });
 
-            modelBuilder.Entity("MVCTest.Models.Product.VolumeOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ProductId");
-
-                    b.Property<double>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("VolumeOptions");
-                });
-
-            modelBuilder.Entity("MVCTest.Models.Product.WeightOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ProductId");
-
-                    b.Property<double>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("WeightOptions");
-                });
-
             modelBuilder.Entity("MVCTest.Models.User.User", b =>
                 {
                     b.Property<int>("Id")
@@ -209,20 +177,6 @@ namespace MVCTest.Migrations
                     b.HasOne("MVCTest.Models.Product.Category", "Category")
                         .WithMany("SubCategories")
                         .HasForeignKey("CategoryId");
-                });
-
-            modelBuilder.Entity("MVCTest.Models.Product.VolumeOption", b =>
-                {
-                    b.HasOne("MVCTest.Models.Product.Product", "Product")
-                        .WithMany("VolumeOptions")
-                        .HasForeignKey("ProductId");
-                });
-
-            modelBuilder.Entity("MVCTest.Models.Product.WeightOption", b =>
-                {
-                    b.HasOne("MVCTest.Models.Product.Product", "Product")
-                        .WithMany("WeightOptions")
-                        .HasForeignKey("ProductId");
                 });
 #pragma warning restore 612, 618
         }

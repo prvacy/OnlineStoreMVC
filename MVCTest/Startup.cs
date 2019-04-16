@@ -36,7 +36,7 @@ namespace MVCTest
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            string connection = Configuration.GetConnectionString("DefaultConnection");               //DB connection
+            string connection = Configuration.GetConnectionString("DefaultConnection");                 //DB connection
             services.AddDbContext<Models.SiteDbContext>(options => options.UseSqlServer(connection));   //
 
 
@@ -73,15 +73,26 @@ namespace MVCTest
                     template: "{controller}/{action}"
                     );
 
+
                 routes.MapRoute(
                     name: "buy",
                     template: "{controller=Home}/{action=Index}/{id?}"
                     );
 
-                routes.MapRoute(
-                    name: "test",
-                    template: "{controller=Test}/{action=Run}"
-                    );  
+                //routes.MapRoute(
+                //    name: "default2",
+                //    template: "{controller}/{action}/{productId:int}"
+                //    );
+
+                //routes.MapRoute(
+                //    name: "editProduct",
+                //    template: "{controller=Editor}/{action=EditProduct}/{productId?}"
+                //    );
+
+                //routes.MapRoute(
+                //    name: "test",
+                //    template: "{controller=Test}/{action=Run}"
+                //    );  
 
                 //routes.MapRoute(
                 //    name: "register",
