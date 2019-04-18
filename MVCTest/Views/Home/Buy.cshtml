@@ -14,12 +14,12 @@
     <form method="post" class="form-horizontal" role="form">
         <input type="hidden" value="@Model.Id" name="ProductId" />
         <div class="products-container">
-            <a href="~/Editor/EditProduct/?productId=@Model.Id">Edit</a>
-
+            <a href="~/Editor/EditProduct/?productId=@Model.Id">Edit</a> @*TODO:show only if user-role is admin*@
             <p>@Model.Name <br /></p>
             <img src="@Model.ImagePath"
                  width="250"
                  height="200" />
+
             @if (Model.Weight.HasValue)
             {
                 <p>Weight: @Model.Weight</p>

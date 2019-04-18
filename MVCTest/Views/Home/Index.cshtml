@@ -60,9 +60,7 @@
             @foreach (var item in Model.Products)
             {
                 <div class="product">
-                    <div class="product-name">
-                        @item.Name
-                    </div>
+                    <div class="product-name" title="@item.Name">@item.Name</div>
                     <div class="product-image">
                         @if (item.ImagePath != null)
                         {

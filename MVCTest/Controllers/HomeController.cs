@@ -139,7 +139,7 @@ namespace MVCTest.Controllers
         [HttpPost]
         public async Task<IActionResult> Cart(int[] Quantity, string[] ItemsToDelete, int OrderId)
         {
-            var order = await db.Orders.SingleOrDefaultAsync(i => i.Id == OrderId);
+            var order = await db.Orders.FindAsync(OrderId);//was .SingleOrDefaultAsync
             var orderItems = db.OrderItems.Where(i => i.OrderId == OrderId);
             int it = 0;
 
@@ -173,6 +173,12 @@ namespace MVCTest.Controllers
                 }
                 var cart = db.OrderItems.Include(i => i.Product)
                     .Where(i => i.OrderId == OrderId);
+
+                if(order.OrderItems.Count() == 0)
+                {
+                    db.Orders.Remove(order);
+                    HttpContext.Response.Cookies.Append("order-id", Convert.ToString(order.Id));
+                }
                 return View(await cart.ToListAsync());
             }
             else

@@ -3,7 +3,11 @@
 @{
     ViewData["Title"] = "Product";
     Layout = "_Layout";
-    var product = Model.Product;
+    MVCTest.Models.Product.Product product = new MVCTest.Models.Product.Product();
+    if(Model.Product != null)
+    {
+        product = Model.Product;
+    }
 }
 
 <!DOCTYPE html>
@@ -19,84 +23,142 @@
             color: black;
         }
     </style>
+
+    <link href="~/css/form.css" rel="stylesheet" />
 </head>
 <body>
-    <form method="post" enctype="multipart/form-data">
-        <input type="hidden" name="Id" value="@Model.Product.Id" />
-        <table class="table-condensed">
-            <tr>
-                <td>Name:</td>
-                <td><input type="text" name="Name" value="@Model.Product.Name" /> </td>
-            </tr>
+    <header>PRODUCT EDITOR</header>
+    <form id="form" class="topBefore" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="IsEdit" value="@((Model.Product != null).ToString())"/>
+        <input type="hidden" name="Id" value="@product.Id"/>
 
-            <tr>
-                <td>Price:</td>
-                <td><input type="text" name="Price_string" step="0.05" value="@product.Price" /></td>
-            </tr>
+        <p class="text-up-input">NAME</p>
+        <input type="text" name="Name" value="@(product.Name ?? "")" />
 
-            <tr>
-                <td>Quantity:</td>
-                <td><input type="number" name="Quantity" value="@product.Quantity" /></td>
-            </tr>
+        <p class="text-up-input">PRICE</p>
+        <input type="text" name="Price_string" step="0.05" value="@product.Price" />
 
-            <tr>
-                <td>Description:</td>
-                <td><textarea name="Description" value="@product.Description"></textarea> </td>
-            </tr>
+        <p class="text-up-input">QUANTITY</p>
+        <input type="number" name="Quantity" value="@product.Quantity" />
 
-            <tr>
-                <td>Weight:</td>
-                <td><input type="number" name="Weight_string" value="@product.Weight" step="0.05" /></td>
-            </tr>
+        <p class="text-up-input">DESCRIPTION</p>
+        <textarea type="text" placeholder="MESSAGE"></textarea>
 
-            <tr>
-                <td>Volume:</td>
-                <td><input type="number" name="Volume_string" value="@product.Volume" step="0.05" /></td>
-            </tr>
+        <p class="text-up-input">CATEGORY</p>
+        <select name="subCategoryId">
+            @foreach (var item in Model.Categories)
+            {
+                <optgroup label="@item.Name">
 
-            <tr>
-                <td>ImagePath:</td>
-                <td><input type="text" name="ImagePath" value="@product.ImagePath" /></td>
-            </tr>
-
-
-            <tr>
-                <td>Category:</td>
-                <td>
-                    <select name="subCategoryId">
-                        @foreach (var item in Model.Categories)
+                    @foreach (var subc in item.SubCategories)
+                    {
+                        if (subc.Id == product.SubCategoryId)
                         {
-                            <optgroup label="@item.Name">
-
-                                @foreach (var subc in item.SubCategories)
-                                {
-                                    if (subc.Id == product.SubCategoryId)
-                                    {
-                                        <option value="@subc.Id" selected>@subc.Name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@subc.Id">@subc.Name</option>
-                                    }
-
-                                }
-
-                            </optgroup>
+                            <option value="@subc.Id" selected>@subc.Name</option>
                         }
-                    </select>
-                </td>
-            </tr>
+                        else
+                        {
+                            <option value="@subc.Id">@subc.Name</option>
+                        }
 
-            <tr>
-                <td>Image:</td>
-                <td><input type="file" @*accept="image/png, image/jpeg" *@ name="file" /></td>
-            </tr>
+                    }
 
-            <tr>
-                <td><input type="submit" value="Submit" /> </td>
-            </tr>
+                </optgroup>
+            }
+        </select>
 
-        </table>
+        <p class="text-up-input">WEIGHT</p>
+        <input type="number" name="Weight_string" value="@product.Weight" step="0.05" />
+
+        <p class="text-up-input">VOLUME</p>
+        <input type="number" name="Volume_string" value="@product.Volume" step="0.001" />
+
+        <p class="text-up-input">SERVER IMAGE PATH</p>
+        <input type="text" name="ImagePath" value="@product.ImagePath" />
+
+        <p class="text-up-input">UPLOAD IMAGE</p>
+        <input type="file" accept="image/png, image/jpeg" name="file" id="file" />
+
+
+
+        <input id="submit" type="submit" value="SUBMIT">
     </form>
+    @*<form method="post" enctype="multipart/form-data">
+            <input type="hidden" name="Id" value="@Model.Product.Id" />
+            <table class="table-condensed">
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" name="Name" value="@Model.Product.Name" /> </td>
+                </tr>
+
+                <tr>
+                    <td>Price:</td>
+                    <td><input type="text" name="Price_string" step="0.05" value="@product.Price" /></td>
+                </tr>
+
+                <tr>
+                    <td>Quantity:</td>
+                    <td><input type="number" name="Quantity" value="@product.Quantity" /></td>
+                </tr>
+
+                <tr>
+                    <td>Description:</td>
+                    <td><textarea name="Description" value="@product.Description"></textarea> </td>
+                </tr>
+
+                <tr>
+                    <td>Weight:</td>
+                    <td><input type="number" name="Weight_string" value="@product.Weight" step="0.05" /></td>
+                </tr>
+
+                <tr>
+                    <td>Volume:</td>
+                    <td><input type="number" name="Volume_string" value="@product.Volume" step="0.05" /></td>
+                </tr>
+
+                <tr>
+                    <td>ImagePath:</td>
+                    <td><input type="text" name="ImagePath" value="@product.ImagePath" /></td>
+                </tr>
+
+
+                <tr>
+                    <td>Category:</td>
+                    <td>
+                        <select name="subCategoryId">
+                            @foreach (var item in Model.Categories)
+                            {
+                                <optgroup label="@item.Name">
+
+                                    @foreach (var subc in item.SubCategories)
+                                    {
+                                        if (subc.Id == product.SubCategoryId)
+                                        {
+                                            <option value="@subc.Id" selected>@subc.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@subc.Id">@subc.Name</option>
+                                        }
+
+                                    }
+
+                                </optgroup>
+                            }
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Image:</td>
+                    <td><input type="file" accept="image/png, image/jpeg"  name="file" /></td>
+                </tr>
+
+                <tr>
+                    <td><input type="submit" value="Submit" /> </td>
+                </tr>
+
+            </table>
+        </form>*@
 </body>
 </html>

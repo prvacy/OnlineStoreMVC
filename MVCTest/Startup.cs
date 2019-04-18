@@ -68,14 +68,14 @@ namespace MVCTest
 
             app.UseMvc(routes =>
             {
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: "{controller}/{action}"
+                //    );
+
+
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action}"
-                    );
-
-
-                routes.MapRoute(
-                    name: "buy",
                     template: "{controller=Home}/{action=Index}/{id?}"
                     );
 

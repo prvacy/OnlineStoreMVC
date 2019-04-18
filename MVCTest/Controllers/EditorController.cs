@@ -26,7 +26,7 @@ namespace MVCTest.Controllers
         //TODO: All users can go to this page!!!!!!!!
 
         // GET: Editor
-        [HttpGet]
+        /*[HttpGet]
         public async Task<ActionResult> Index()
         {
 
@@ -34,7 +34,7 @@ namespace MVCTest.Controllers
                     .Include(c => c.SubCategories)
                     .ToListAsync();
 
-            return View("~/Views/Editor/Product.cshtml", categories);
+            return View("~/Views/Editor/AddProduct.cshtml", categories);
         }
 
 
@@ -43,23 +43,7 @@ namespace MVCTest.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(Product product, string Price_string, string Weight_string, string Volume_string)
         {
-            //var file = HttpContext.Request.Form.Files.First();
-            //if (file != null)
-            //{
-            //    var path = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/Products/Images/", file.FileName);
-            //    using (var fileStream = new FileStream(path, FileMode.Create))
-            //    {
-            //        await file.CopyToAsync(fileStream); //Upload file to /Products/Images/filename.ext
-            //    }
-            //    product.ImagePath = Path.Combine("/Products/Images/", file.FileName);
-            //}
-            //else
-            //{
-            //    if (String.IsNullOrEmpty(product.ImagePath))
-            //    {
-            //        product.ImagePath = $"/Products/Images/{product.Name}.jpg";
-            //    }
-            //}
+
 
             var path = await UploadImage(product.ImagePath);
             if (String.IsNullOrEmpty(path))
@@ -70,7 +54,6 @@ namespace MVCTest.Controllers
                 }
             }
 
-            //product.SubCategory = await db.SubCategories.SingleOrDefaultAsync(s => s.Name == subCategory);
 
             product.Price = Convert.ToDouble(Price_string);
             product.Weight = Convert.ToDouble(Weight_string);
@@ -83,8 +66,8 @@ namespace MVCTest.Controllers
                 .Include(c => c.SubCategories)
                 .ToListAsync();
 
-            return View("~/Views/Editor/Product.cshtml", cat);
-        }
+            return View("~/Views/Editor/AddProduct.cshtml", cat);
+        }*/
 
 
         [HttpGet]
@@ -102,7 +85,7 @@ namespace MVCTest.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditProduct(Product product, string Price_string, string Weight_string, string Volume_string)
+        public async Task<ActionResult> EditProduct(Product product, string Price_string, string Weight_string, string Volume_string, string IsEdit)
         {
             var path = await UploadImage(product.ImagePath);
             if (String.IsNullOrEmpty(path))
@@ -112,15 +95,44 @@ namespace MVCTest.Controllers
                     product.ImagePath = $"/Products/Images/{product.Name}.jpg";
                 }
             }
+            else
+            {
+                product.ImagePath = path;
+            }
+
+            if (Volume_string != null)
+            {
+                if (Volume_string.Contains('.'))
+                {
+                    Volume_string = Volume_string.Replace('.', ',');
+                }
+            }
+
 
             product.Price = Convert.ToDouble(Price_string);
             product.Weight = Convert.ToDouble(Weight_string);
+            Console.WriteLine(Volume_string);
             product.Volume = Convert.ToDouble(Volume_string);
 
-            db.Products.Update(product);
+            if (Convert.ToBoolean(IsEdit))
+            {
+                db.Products.Update(product);
+            }
+            else
+            {
+                await db.Products.AddAsync(product);
+            }
+
             await db.SaveChangesAsync();
 
-            return View("~/Views/Home/Index.cshtml");
+            //return View("~/Views/Home/Index.cshtml");
+            var vm = new EditorProductVM
+            {
+                Categories = await db.Categories
+                    .Include(c => c.SubCategories)
+                    .ToListAsync()
+            };
+            return View("~/Views/Editor/EditProduct.cshtml", vm);
         }
 
 
