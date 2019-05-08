@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace MVCTest.Models.Filters
 {
+    public enum PriceSort
+    {
+        LowToHigh,
+        HighToLow
+    }
     public class IndexFilter
     {
         public int? SubCategoryId { get; set; }
@@ -14,5 +19,11 @@ namespace MVCTest.Models.Filters
         public double? MaxPrice { get; set; }
 
         public int? Page { get; set; }
+
+        public string SearchQuery { get; set; }
+
+        public PriceSort PriceSort { get; set; }
     }
+    
+
 }

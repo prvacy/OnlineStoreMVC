@@ -44,19 +44,20 @@ body {
 input, button {
   color: black; }
 
-.wrapper {
+.wrapper-row {
   display: flex;
   flex-direction: row;
+  margin-right: 20px;
   /*min-height: 100%;
     height: 100%;
     width: 100%;
     padding: 5% 3% 5% 3%;*/ }
-  .wrapper .cat {
+  .wrapper-row .cat {
     width: 15%;
     min-width: 15%;
     height: auto;
     margin-right: 5%; }
-    .wrapper .cat .maincat {
+    .wrapper-row .cat .maincat {
       display: block;
       font-size: 22px;
       padding: 5px 5px;
@@ -64,47 +65,68 @@ input, button {
       /*border-style: solid;
             border-color: darkmagenta;
             border-width: 4px;*/ }
-      .wrapper .cat .maincat .subcat, .wrapper .cat .maincat .subcat-show {
+      .wrapper-row .cat .maincat .subcat, .wrapper-row .cat .maincat .subcat-show {
         font-size: 18px;
         margin-left: 20px; }
-        .wrapper .cat .maincat .subcat a:visited, .wrapper .cat .maincat .subcat a:link, .wrapper .cat .maincat .subcat-show a:visited, .wrapper .cat .maincat .subcat-show a:link {
+        .wrapper-row .cat .maincat .subcat a:visited, .wrapper-row .cat .maincat .subcat a:link, .wrapper-row .cat .maincat .subcat-show a:visited, .wrapper-row .cat .maincat .subcat-show a:link {
           color: white; }
-        .wrapper .cat .maincat .subcat-name, .wrapper .cat .maincat .subcat-show-name {
+        .wrapper-row .cat .maincat .subcat-name, .wrapper-row .cat .maincat .subcat-show-name {
           border: none;
           background-color: none;
           background: none; }
-      .wrapper .cat .maincat .subcat {
+      .wrapper-row .cat .maincat .subcat {
         display: none; }
-      .wrapper .cat .maincat .subcat-show {
+      .wrapper-row .cat .maincat .subcat-show {
         display: block; }
-  .wrapper .products-container {
+  .wrapper-row .wrapper-column {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-right: 20px;
-    height: 100%;
-    min-height: 100%;
-    justify-content: space-between; }
-    .wrapper .products-container .product {
-      width: 200px;
-      height: 250px;
-      margin-right: 2%;
-      margin-bottom: 5%; }
-      .wrapper .products-container .product-name {
-        font-size: 18px;
-        min-height: 20px;
-        max-height: 25px;
-        max-width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        margin-bottom: 10px; }
-      .wrapper .products-container .product .image {
-        width: 100%; }
-    .wrapper .products-container .pages {
+    flex-direction: column; }
+    .wrapper-row .wrapper-column .topbar {
       display: flex;
-      margin: 0 auto;
-      width: 100%; }
-      .wrapper .products-container .pages .page-button {
-        width: 20px;
-        margin-right: 5px; }
+      justify-content: space-between;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      margin-right: 40px; }
+      .wrapper-row .wrapper-column .topbar .search {
+        font-family: 'Lato', sans-serif;
+        font-size: 0.875em;
+        width: 470px;
+        height: 40px;
+        padding-left: 10px;
+        background-color: white;
+        outline: none;
+        border: solid 1px #b3aca7;
+        border-radius: 15px; }
+      .wrapper-row .wrapper-column .topbar .sort {
+        background-color: transparent; }
+    .wrapper-row .wrapper-column .products-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-right: 20px;
+      height: 100%;
+      min-height: 100%;
+      justify-content: space-between; }
+      .wrapper-row .wrapper-column .products-container .product {
+        width: 200px;
+        height: 250px;
+        margin-right: 15px;
+        margin-bottom: 5%; }
+        .wrapper-row .wrapper-column .products-container .product-name {
+          font-size: 18px;
+          min-height: 20px;
+          max-height: 25px;
+          max-width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin-bottom: 10px; }
+        .wrapper-row .wrapper-column .products-container .product .image {
+          width: 100%; }
+      .wrapper-row .wrapper-column .products-container .pages {
+        display: flex;
+        margin: 0 auto;
+        width: 100%; }
+        .wrapper-row .wrapper-column .products-container .pages .page-button {
+          width: 20px;
+          margin-right: 5px; }

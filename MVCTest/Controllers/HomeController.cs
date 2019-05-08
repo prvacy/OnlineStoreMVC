@@ -10,6 +10,7 @@ using MVCTest.Models;
 using MVCTest.Models.Product;
 using MVCTest.Models.ViewModels;
 using MVCTest.Services;
+using MVCTest.Models.Filters;
 
 namespace MVCTest.Controllers
 {
@@ -26,9 +27,8 @@ namespace MVCTest.Controllers
         }
 
 
-        public async Task<IActionResult> Index(bool loadAll, int? subcatId, double? minPrice, double? maxPrice, int? page)
+        public async Task<IActionResult> Index(bool loadAll, int? subcatId, double? minPrice, double? maxPrice, int? page, string searchQuery, PriceSort priceSort)
         {
-
             var currentSubc = TempData["currentSubc"] as int?;
             if (!subcatId.HasValue && currentSubc.HasValue)
             {
@@ -52,7 +52,9 @@ namespace MVCTest.Controllers
                         SubCategoryId = subcatId,
                         MinPrice = minPrice,
                         MaxPrice = maxPrice,
-                        Page = page
+                        Page = page,
+                        SearchQuery = searchQuery,
+                        PriceSort = priceSort
                     }),
 
                 PagesCount = filterService.PagesCount

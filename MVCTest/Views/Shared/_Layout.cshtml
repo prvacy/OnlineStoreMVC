@@ -13,13 +13,15 @@
     <nav class="navbar navbar-inverse">
         <div class="container">
             <div>
+                <script src="~/js/searchOnKeyPress.js"></script>
                 <ul class="nav navbar-nav">
-                    @{
-                        
-                    }
+
                     <li><a href="~/Home/Index?loadAll=true" class="navbar-brand">Main Page</a></li>
+
+                    <li><input type="search" form="filter" class="search" id="search" name="searchQuery" placeholder="Search for items..." onkeypress="~/js/searchOnKeyPress.js" /></li>
+                    <li><button type="submit" form="filter" class="search-button">@*🔎*@Ok</button></li>
                 </ul>
-            </div>
+            </div>  
 
             <div>
                 <ul class="nav navbar-nav navbar-right">

@@ -24,7 +24,7 @@ namespace MVCTest.Services
             db = dbContext;
         }
 
-        
+
         public async Task<List<Product>> Filter(IndexFilter filter)
         {
             #region private_members
@@ -35,6 +35,8 @@ namespace MVCTest.Services
             products = await FilterByCategoryAsync(products, filter.SubCategoryId);
             products = await FilterByPriceAsync(products, filter.MinPrice, filter.MaxPrice);
             products = await FilterByPageAsync(products, filter.Page);
+            products = await FilterBySearchQueryAsync(products, filter.SearchQuery);
+            products = await SortByPriceAsync(products, filter.PriceSort);
 
             return await products.ToListAsync();
         }
@@ -88,6 +90,30 @@ namespace MVCTest.Services
             products = products.Skip(pageStart).Take(ItemsOnPage);
 
 
+            return products;
+        }
+
+        private async Task<IQueryable<Product>> FilterBySearchQueryAsync(IQueryable<Product> products, string q)
+        {
+            if (!String.IsNullOrWhiteSpace(q))
+            {
+                products = products.Where(i => i.Name.Contains(q));
+            }
+            return products;
+        }
+        private async Task<IQueryable<Product>> SortByPriceAsync(IQueryable<Product> products, PriceSort priceSort)
+        {
+            switch (priceSort)
+            {
+                case PriceSort.LowToHigh:
+                    products = products.OrderBy(i => i.Price);
+                    break;
+                case PriceSort.HighToLow:
+                    products = products.OrderByDescending(i => i.Price);
+                    break;
+                default:
+                    break;
+            }
             return products;
         }
 

@@ -1,6 +1,7 @@
 ﻿@*@model IEnumerable<MVCTest.Models.Product.Product>*@
 
 @model MVCTest.Models.ViewModels.IndexVM
+@using MVCTest.Models.Filters
 
 @{
     ViewData["Title"] = "Buy a lot of goods!";
@@ -16,7 +17,7 @@
 
 </head>
 <body>
-    <div class="wrapper">
+    <div class="wrapper-row">
         <div class="cat">
             <form id="filter">
                 <ul>
@@ -55,54 +56,62 @@
 
         <script src="~/js/animations.js"></script>
 
-        
-        <div class="products-container">
-            @foreach (var item in Model.Products)
-            {
-                <div class="product">
-                    <div class="product-name" title="@item.Name">@item.Name</div>
-                    <div class="product-image">
-                        @if (item.ImagePath != null)
-                        {
-                            <a href="~/Home/Buy/@item.Id">
-                                <img src="@item.ImagePath"
-                                     @*width="250"
-                                 height="200" *@ class="image" />
-                            </a>
-                        }
-                    </div>
+        <div class="wrapper-column">
 
-                    <div class="product-description">
-                        <p class="price">Price: @item.Price</p>
-                        @{
-                            if (@item.SubCategoryId != null)
-                            {
-                                <p>Category: @item.SubCategory.Name</p>
-                            }
-                            else
-                            {
-                                <p>Category: No category</p>
-                            }
-                        }
+            <div class="topbar">
+                <select class="sort" form="filter" name="priceSort">
+                    <option value="@PriceSort.LowToHigh">Price low to high</option>
+                    <option value="@PriceSort.HighToLow">Price high to low</option>
+                </select>
+            </div>
 
-                        <a href="~/Home/Buy/@item.Id">Buy</a>
-                    </div>
-
-                </div>
-            }
-
-            <div class="pages">
-                @if (Model.PagesCount != 1)
+            <div class="products-container">
+                @foreach (var item in Model.Products)
                 {
-                    @for (var i = 0; i < Model.PagesCount; i++)
-                    {
-                        <button name="page" value="@i" form="filter">@(i + 1)</button>
-                    }
+                    <div class="product">
+                        <div class="product-name" title="@item.Name">@item.Name</div>
+                        <div class="product-image">
+                            @if (item.ImagePath != null)
+                            {
+                                <a href="~/Home/Buy/@item.Id">
+                                    <img src="@item.ImagePath"
+                                         @*width="250"
+                                 height="200" *@ class="image" />
+                                </a>
+                            }
+                        </div>
+
+                        <div class="product-description">
+                            <p class="price">Price: @item.Price</p>
+                            @{
+                                if (@item.SubCategoryId != null)
+                                {
+                                    <p>Category: @item.SubCategory.Name</p>
+                                }
+                                else
+                                {
+                                    <p>Category: No category</p>
+                                }
+                            }
+
+                            <a href="~/Home/Buy/@item.Id">Buy</a>
+                        </div>
+
+                    </div>
                 }
+
+                <div class="pages">
+                    @if (Model.PagesCount != 1)
+                    {
+                        @for (var i = 0; i < Model.PagesCount; i++)
+                        {
+                            <button name="page" value="@i" form="filter">@(i + 1)</button>
+                        }
+                    }
+                </div>
             </div>
         </div>
-
-        </div>
+    </div>
     
 
 </body>
